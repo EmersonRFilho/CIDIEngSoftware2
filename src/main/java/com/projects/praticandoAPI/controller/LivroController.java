@@ -41,10 +41,16 @@ public class LivroController {
 	@PostMapping
 	public ResponseEntity<LivroDto> cadastrar(@RequestBody LivroForm form, UriComponentsBuilder uriBuilder) {
 		Livro livro = form.converter(livroRepository);
-		livroRepository.save(livro);
-		
-		URI uri = uriBuilder.path("/livro/{id}").buildAndExpand(livro.getId()).toUri();
-		return ResponseEntity.created(uri).body(new LivroDto(livro));
-	}
 
+		List<Livro> jaExiste = livroRepository.findAllByTitulo(livro.getTitulo());
+
+		if(jaExiste.isEmpty())
+		{
+			livroRepository.save(livro);
+			URI uri = uriBuilder.path("/livro/{id}").buildAndExpand(livro.getId()).toUri();
+			return ResponseEntity.created(uri).body(new LivroDto(livro));
+		}
+		else
+			return null;
+	}
 }
