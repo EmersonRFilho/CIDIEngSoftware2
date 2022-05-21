@@ -1,7 +1,5 @@
 package com.projects.praticandoAPI.controller.dto;
 import com.projects.praticandoAPI.modelo.Livro;
-import com.projects.praticandoAPI.modelo.Topico;
-
 
 import java.time.LocalDateTime;
 import java.util.List;

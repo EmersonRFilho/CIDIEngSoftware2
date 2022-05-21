@@ -2,8 +2,12 @@ package com.projects.praticandoAPI;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,18 +22,22 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.praticandoAPI.controller.HelloWorld;
+import com.projects.praticandoAPI.controller.LivroController;
 import com.projects.praticandoAPI.modelo.Livro;
+import com.projects.praticandoAPI.repository.LivroRepository;
 
 
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest 
-@WebMvcTest(controllers = HelloWorld.class) 
-
+@SpringBootTest
+@AutoConfigureMockMvc
 public class PraticandoApiApplicationTests {
 
 	@Autowired
     private MockMvc mockMvc;
+    
+    @Autowired
+    LivroRepository livroRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -44,23 +52,34 @@ public class PraticandoApiApplicationTests {
     }
 
     @Test
-    public void testeNomeIgual() throws Exception {
+    public void testeInsereLivro() throws Exception {
+        
+        ObjectMapper objectMapper = new ObjectMapper();
 
         Livro livro = new Livro();
-        
+        Livro livro2 = new Livro();
+
         livro.setAutorLivro("Fabio");
         livro.setEditora("editoraFabio");
         livro.setQtdPaginas(100);
         livro.setTitulo("Teste1");
 
-
-        ObjectMapper objectMapper = new ObjectMapper();
+        livro2.setAutorLivro("Fabio");
+        livro2.setEditora("editoraFabio");
+        livro2.setQtdPaginas(100);
+        livro2.setTitulo("Teste1");
 
         mockMvc.perform((MockMvcRequestBuilders.post("/livros")
                 .contentType(MediaType.APPLICATION_JSON))
                 .content(objectMapper.writeValueAsString(livro))
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        mockMvc.perform((MockMvcRequestBuilders.post("/livros")
+                .contentType(MediaType.APPLICATION_JSON))
+                .content(objectMapper.writeValueAsString(livro2))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }
 

@@ -25,14 +25,6 @@ public class Livro {
     private String editora;
     private int qtdPaginas;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
-	@Enumerated(EnumType.STRING)
-	private StatusTopico status = StatusTopico.NAO_RESPONDIDO;
-	@ManyToOne
-	private Usuario autor;
-	@ManyToOne
-	private Curso curso;
-	@OneToMany(mappedBy = "topico")
-	private List<Resposta> respostas = new ArrayList<>();
 	
 	public Livro() {
 	}
@@ -116,37 +108,4 @@ public class Livro {
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-
-	public StatusTopico getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusTopico status) {
-		this.status = status;
-	}
-
-	public Usuario getAutor() {
-		return autor;
-	}
-
-	public void setAutor(Usuario autor) {
-		this.autor = autor;
-	}
-
-	public Curso getCurso() {
-		return curso;
-	}
-
-	public void setCurso(Curso curso) {
-		this.curso = curso;
-	}
-
-	public List<Resposta> getRespostas() {
-		return respostas;
-	}
-
-	public void setRespostas(List<Resposta> respostas) {
-		this.respostas = respostas;
-	}
-
 }
