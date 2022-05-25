@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.junit.Assert.assertFalse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ import com.projects.praticandoAPI.controller.HelloWorld;
 import com.projects.praticandoAPI.controller.LivroController;
 import com.projects.praticandoAPI.modelo.Livro;
 import com.projects.praticandoAPI.repository.LivroRepository;
+import com.projects.praticandoAPI.services.LivroServices;
 
 
 
@@ -38,6 +41,9 @@ public class PraticandoApiApplicationTests {
     
     @Autowired
     LivroRepository livroRepository;
+
+    @Autowired
+    LivroServices livroService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -80,6 +86,26 @@ public class PraticandoApiApplicationTests {
                 .content(objectMapper.writeValueAsString(livro2))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void testaMetodoDeNomeIguai() throws Exception{
+        Livro livro = new Livro();
+        Livro livro2 = new Livro();
+
+        livro.setAutorLivro("Fabio");
+        livro.setEditora("editoraFabio");
+        livro.setQtdPaginas(100);
+        livro.setTitulo("Teste1");
+
+        livro2.setAutorLivro("Fabio");
+        livro2.setEditora("editoraFabio");
+        livro2.setQtdPaginas(100);
+        livro2.setTitulo("Teste1");
+
+        livroRepository.save(livro);
+
+        assertFalse("Livro já cadastrado", livroService.VerificaLivro(livro2));
     }
 }
 
