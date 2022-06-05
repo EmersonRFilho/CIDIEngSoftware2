@@ -57,9 +57,9 @@ public class PraticandoApiApplicationTests {
         livro.setQtdPaginas(100);
         livro.setTitulo("Teste1");
 
-        livro2.setAutorLivro("Fabio");
-        livro2.setEditora("editoraFabio");
-        livro2.setQtdPaginas(100);
+        livro2.setAutorLivro("Emerson");
+        livro2.setEditora("editoraEmerson");
+        livro2.setQtdPaginas(224);
         livro2.setTitulo("Teste1");
 
         mockMvc.perform((MockMvcRequestBuilders.post("/livros")
