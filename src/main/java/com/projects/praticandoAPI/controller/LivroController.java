@@ -28,6 +28,7 @@ public class LivroController {
 	@Autowired
 	private LivroServices livroServices;
 	
+	// returns book list
 	@GetMapping(value = "/livros")
 	public List<LivroDto> lista() {
         List<Livro> livros = livroRepository.findAll();
